@@ -307,7 +307,13 @@ impl DotPrinter for GraphAttributes {
 
 impl DotPrinter for Node {
     fn print(&self, ctx: &mut PrinterContext) -> String {
-        format!("{}{}", self.id.print(ctx), self.attributes.print(ctx))
+        format!("{}{}{}", self.id.print(ctx), {
+            if self.attributes.len() != 0 && !ctx.is_inline_on() {
+                " "
+            } else {
+                ""
+            }
+        }, self.attributes.print(ctx))
     }
 }
 
